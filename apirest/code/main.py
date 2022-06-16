@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import sqlite3
 from typing import List
 from pydantic import BaseModel
+import requests
 
 class Respuesta(BaseModel):
     message: str
@@ -19,7 +20,7 @@ async def index():
 
 @app.get("/clientes/",)
 async def clientes():
-    with sqlite3.connect('sql/clientes.sqlite') as connection:
+    with sqlite3.connect('code/sql/clientes.sqlite') as connection:
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM clientes')
@@ -28,7 +29,7 @@ async def clientes():
 
 @app.get("/clientes/{id_cliente}", response_model=Clientes)
 async def clientes_id(id_cliente: int):
-    with sqlite3.connect("sql/clientes.sqlite") as connection:
+    with sqlite3.connect("code/sql/clientes.sqlite") as connection:
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM clientes WHERE id_cliente = {}".format(id_cliente))
