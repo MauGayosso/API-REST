@@ -17,3 +17,21 @@ def test_clientes():
     {"id_cliente":3,"nombre":"Pepe","email":"pepe@gmail.com"}]
     assert response.status_code == 200
     assert response.json() == data
+
+def test_ClientesById1():
+    response = clientes.get('/clientes/1')
+    data = {"id_cliente":1,"nombre":"Juan","email":"juan@gmail.com"}
+    assert response.status_code == 200
+    assert response.json() == data
+
+def test_ClientesById2():
+    response = clientes.get('/clientes/2')
+    data = {"id_cliente":2,"nombre":"Roberto","email":"roberto@gmail.com"}
+    assert response.status_code == 200
+    assert response.json() == data
+
+def test_ClientesById3():
+    response = clientes.get('/clientes/3')
+    data = {"id_cliente":3,"nombre":"Pepe","email":"pepe@gmail.com"}
+    assert response.status_code == 200
+    assert response.json() == data
