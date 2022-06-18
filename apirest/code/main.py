@@ -53,7 +53,7 @@ async def post_cliente(nombre:str,email:str): #Usar el basemodel Clientes permit
     with sqlite3.connect("code/sql/clientes.sqlite") as connection:
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO clientes(nombre,email) VALUES ('{nombre}','{email}')".format(nombre=nombre,email=email))
+        cursor.execute("INSERT INTO clientes(nombre,email) VALUES ('{}','{}')".format(nombre,email))
         response = cursor.fetchone()
         payloadResponse = {"message" : "Cliente Agregado"}
         return payloadResponse
@@ -63,7 +63,7 @@ async def put_cliente(id_cliente:int,nombre:str,email:str):
     with sqlite3.connect("code/sql/clientes.sqlite") as connection:
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
-        cursor.execute("UPDATE clientes SET nombre = '{nombre}', email = '{email}' WHERE id_cliente={id_cliente}".format(nombre=nombre,email=email,id_cliente=id_cliente))
+        cursor.execute("UPDATE clientes SET nombre = '{}', email = '{}' WHERE id_cliente={}".format(nombre,email,id_cliente))
         response = cursor.fetchone()
         putResponse = {"message" : "Cliente Actualizado"}
         return putResponse
@@ -73,7 +73,7 @@ async def delete_cliente(id_cliente:int):
    with sqlite3.connect("code/sql/clientes.sqlite") as connection:
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
-        cursor.execute("DELETE FROM clientes WHERE id_cliente={id_cliente}".format(id_cliente=id_cliente))
+        cursor.execute("DELETE FROM clientes WHERE id_cliente={}".format(id_cliente))
         response = cursor.fetchone()
         deleteResponse = {"message" : "Cliente Eliminado"}
         return deleteResponse
