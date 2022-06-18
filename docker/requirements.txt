@@ -1,3 +1,4 @@
 uvicorn==0.17.6
 fastapi==0.78.0
 pytest==7.1.1
+python-multipart==0.0.5

@@ -16,11 +16,11 @@ class ClienteIn(BaseModel):
     email : str
 
 app = FastAPI()
-
+# Endpoint 3.1
 @app.get("/", response_model=Respuesta)
 async def index():
     return {"message": "API REST"}
-
+# Endpoint 3.2
 @app.get("/clientes/",)
 async def clientes():
     with sqlite3.connect('code/sql/clientes.sqlite') as connection:
@@ -29,7 +29,7 @@ async def clientes():
         cursor.execute("SELECT * FROM clientes")
         response = cursor.fetchall()
         return response
-
+# Endpoint 3.3
 @app.get("/clientes/{id_cliente}", response_model=Clientes)
 async def clientes_id(id_cliente: int):
     with sqlite3.connect("code/sql/clientes.sqlite") as connection:
@@ -39,6 +39,8 @@ async def clientes_id(id_cliente: int):
         response = cursor.fetchone()
         return response
 
+# Limit regresa el numero de datos que se le indican limit:int=1
+# Offset indica el numero de la primer columna para hacer el return offset:int=1
 @app.get("/clientesLista/", response_model=List[ClienteIn])
 async def list_cliente(offset:int=1,limit:int=1):
     with sqlite3.connect("code/sql/clientes.sqlite") as connection:
@@ -48,8 +50,9 @@ async def list_cliente(offset:int=1,limit:int=1):
         response = cursor.fetchall()
         return response
 
-@app.post("/clientes/",response_model=Respuesta)
-async def post_cliente(nombre:str,email:str): #Usar el basemodel Clientes permite verificar que se reciba id,nombre,email
+# Enpoint 3.4
+@app.post("/clientes/",response_model=Respuesta) #Usar el basemodel respuestas permite regresar el mensaje de response al test
+async def post_cliente(nombre:str,email:str): # Obtener los datos enviados del test 
     with sqlite3.connect("code/sql/clientes.sqlite") as connection:
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
@@ -58,6 +61,7 @@ async def post_cliente(nombre:str,email:str): #Usar el basemodel Clientes permit
         payloadResponse = {"message" : "Cliente Agregado"}
         return payloadResponse
 
+# Endpoint 3.5
 @app.put("/clientes/{id_cliente}",response_model=Respuesta)
 async def put_cliente(id_cliente:int,nombre:str,email:str):
     with sqlite3.connect("code/sql/clientes.sqlite") as connection:
@@ -68,6 +72,7 @@ async def put_cliente(id_cliente:int,nombre:str,email:str):
         putResponse = {"message" : "Cliente Actualizado"}
         return putResponse
 
+# Endoint 3.6
 @app.delete("/clientes/{id_cliente}",response_model=Respuesta)
 async def delete_cliente(id_cliente:int):
    with sqlite3.connect("code/sql/clientes.sqlite") as connection:
