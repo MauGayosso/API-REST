@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from code.main import app
 import requests
-
+import json
 clientes = TestClient(app)
 
 def test_index():
@@ -18,20 +18,27 @@ def test_clientes():
     assert response.status_code == 200
     assert response.json() == data
 
-def test_ClientesById1():
+def test_ClientesById():
     response = clientes.get('/clientes/1')
     data = {"id_cliente":1,"nombre":"Juan","email":"juan@gmail.com"}
     assert response.status_code == 200
     assert response.json() == data
 
-def test_ClientesById2():
-    response = clientes.get('/clientes/2')
-    data = {"id_cliente":2,"nombre":"Roberto","email":"roberto@gmail.com"}
+def test_payload_Clientes():
+    payload = {"nombre":"Lucas", "email": "lucas@gmail.com"}
+    response = clientes.post("/clientes/", params=payload)
+    payloadResponse = {"message" : "Cliente Agregado"}
     assert response.status_code == 200
-    assert response.json() == data
-
-def test_ClientesById3():
-    response = clientes.get('/clientes/3')
-    data = {"id_cliente":3,"nombre":"Pepe","email":"pepe@gmail.com"}
+    assert response.json() == payloadResponse
+def test_put_Clientes():
+    payload = {"nombre" : "Anahi", "email" : "anahi@gmail.com"}
+    response = clientes.put("/clientes/9",params=payload)
+    putResponse = {"message" : "Cliente Actualizado"}
     assert response.status_code == 200
-    assert response.json() == data
+    assert response.json() == putResponse
+    
+def test_delete_Clientes():
+    response = clientes.delete("/clientes/4")
+    deleteResponse = {"message" : "Cliente Eliminado"}
+    assert response.status_code == 200
+    assert response.json() == deleteResponse
