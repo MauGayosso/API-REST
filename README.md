@@ -7,6 +7,7 @@
 
 # Sql to Sqlite
 - sqlite3 clientes.sqlite < clientes.sql
+- sqlite3 usuarios.sqlite < usuarios.sql
 
 # Run Uvircorn
 - uvicorn main:app
