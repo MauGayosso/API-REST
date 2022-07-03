@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from pydantic import BaseModel
 
@@ -10,10 +11,26 @@ import requests
 
 # Importar URL DB
 
-DATABASE_URL = os.path.join("code/sql/usuarios.sqlite")
+DATABASE_URL = os.path.join("backend/sql/usuarios.sqlite")
 
 app = FastAPI()
 security = HTTPBasic()
+
+# Origins
+
+origins = [
+    "https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us47.gitpod.io/",
+    "https://8080-maugayosso-apirest-uapi6cjdvxz.ws-us47.gitpod.io/"
+]
+
+# Permisos 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Modelos
 
@@ -67,7 +84,7 @@ async def index():
 )
 async def clientes(level: int = Depends(get_current_level)):
     if level == 1:
-        with sqlite3.connect("code/sql/clientes.sqlite") as connection:
+        with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute("SELECT * FROM clientes")
@@ -93,7 +110,7 @@ async def clientes_id(id_cliente: int, level: int = Depends(get_current_level)):
     if (
         level == 1
     ):  # 0 / 1 - Dependera a que tipo de usuario se le dan permisos en este caso 1 es para brindar los permisos a los usuarios con nivel 1
-        with sqlite3.connect("code/sql/clientes.sqlite") as connection:
+        with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute(
@@ -122,7 +139,7 @@ async def list_cliente(
     offset: int = 1, limit: int = 1, level: int = Depends(get_current_level)
 ):
     if level == 1:
-        with sqlite3.connect("code/sql/clientes.sqlite") as connection:
+        with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute(
@@ -145,7 +162,7 @@ async def post_cliente(
     nombre: str, email: str, level: int = Depends(get_current_level)
 ):
     if level == 1:
-        with sqlite3.connect("code/sql/clientes.sqlite") as connection:
+        with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute(
@@ -175,7 +192,7 @@ async def put_cliente(
     id_cliente: int, nombre: str, email: str, level: int = Depends(get_current_level)
 ):
     if level == 1:
-        with sqlite3.connect("code/sql/clientes.sqlite") as connection:
+        with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute(
@@ -203,7 +220,7 @@ async def put_cliente(
 )
 async def delete_cliente(id_cliente: int, level: int = Depends(get_current_level)):
     if level == 1:
-        with sqlite3.connect("code/sql/clientes.sqlite") as connection:
+        with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute(
