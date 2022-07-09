@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+    <header>
+        <title>Post Clientes DOM JS</title>
+    </header>
+    <body>
+        <h1>Insertar Cliente</h1>
+        <a href="index.html">Regresar</a>
+        <br><br><br>
+        <script type="text/javascript" src="postCliente.js"></script>
+        <form id="form_cliente" method="POST">
+            <label for="nombre"> Nombre </label>
+            <br>
+            <input type="text" id="name">
+            <br><br>
+            <label for="email"> Email </label>
+            <br>
+            <input type="email" id="email">
+            <br><br>
+            <input type="button" value="Guardar" onclick="postCliente()">
+    </body>
+</html>
