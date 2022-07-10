@@ -19,14 +19,14 @@ security = HTTPBasic()
 # Origins
 
 origins = [
-    "https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us47.gitpod.io/",
-    "https://8080-maugayosso-apirest-uapi6cjdvxz.ws-us47.gitpod.io/"
+    "https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us53.gitpod.io",
+    "https://8080-maugayosso-apirest-uapi6cjdvxz.ws-us53.gitpod.io"
 ]
 
 # Permisos 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -158,8 +158,7 @@ async def list_cliente(
     description="Permite insertar un nuevo valor",
 )  # Usar el basemodel respuestas permite regresar el mensaje de response al test
 # Obtener los datos enviados del test
-async def post_cliente(
-    nombre: str, email: str, level: int = Depends(get_current_level)
+async def post_cliente(cliente : ClienteIn, level: int = Depends(get_current_level)
 ):
     if level == 1:
         with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
@@ -167,7 +166,7 @@ async def post_cliente(
             cursor = connection.cursor()
             cursor.execute(
                 "INSERT INTO clientes(nombre,email) VALUES ('{}','{}')".format(
-                    nombre, email
+                    cliente.nombre,cliente.email
                 )
             )
             response = cursor.fetchone()
@@ -189,7 +188,7 @@ async def post_cliente(
     description="Permite actualizar un registro segun el id obtenido",
 )
 async def put_cliente(
-    id_cliente: int, nombre: str, email: str, level: int = Depends(get_current_level)
+    put_cliente : Clientes, level: int = Depends(get_current_level)
 ):
     if level == 1:
         with sqlite3.connect("backend/sql/clientes.sqlite") as connection:
@@ -197,7 +196,7 @@ async def put_cliente(
             cursor = connection.cursor()
             cursor.execute(
                 "UPDATE clientes SET nombre = '{}', email = '{}' WHERE id_cliente={}".format(
-                    nombre, email, id_cliente
+                    put_cliente.nombre,put_cliente.email,put_cliente.id_cliente
                 )
             )
             response = cursor.fetchone()
