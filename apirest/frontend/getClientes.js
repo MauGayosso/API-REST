@@ -12,7 +12,7 @@ function getClientes(){
     var username = "user";
     var password = "user";
 
-    request.open('GET', 'https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us53.gitpod.io/clientes/');
+    request.open('GET', "https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us59.gitpod.io/clientes/");
     request.setRequestHeader("Accept", "application/json");
     // + QUERY PARA CONCATENAR DATOS -- SE PUEDE USAR PARA DELETE, UPDATE, GET ONE
     // TRUE PERMITE ASYNC
@@ -81,15 +81,13 @@ function getClientes(){
 function deleteCliente(id_cliente){
 
     var request = new XMLHttpRequest();
+    token = sessionStorage.getItem('token')
 
     console.log('ID Recibido : ' + id_cliente);
 
-    var username = "user";
-    var password = "user";
-
-    request.open('DELETE','https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us53.gitpod.io/clientes/' + id_cliente, true);
+    request.open('DELETE','https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us59.gitpod.io/clientes/' + id_cliente, true);
     request.setRequestHeader("Accept", "application/json");
-    request.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password))
+    request.setRequestHeader("Authorization", "Bearer " + token);
     request.setRequestHeader("content-type", "application/json");
     request.onload = () =>{
         const response = request.responseText;
@@ -104,7 +102,9 @@ function deleteCliente(id_cliente){
             alert(json.message);
             window.location.reload();
         }
-
+        else{
+            alert(json.detail);
+        }
 
     };
     request.send();

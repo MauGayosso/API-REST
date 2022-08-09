@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+    <header>
+        <title>Insertar nuevo usuario</title>
+    </header>
+    <body>
+        <h1>Insertar Usuario</h1>
+        <a href="index.html">Regresar</a>
+        <br><br><br>
+        <script type="text/javascript" src="crearUsuario.js"></script>
+        <form id="form_usuario" method="POST">
+            <label for="email"> Email </label>
+            <br>
+            <input type="email" id="email">
+            <br><br>
+            <label for="password"> Password </label>
+            <br>
+            <input type="password" id="password" minlength="6">
+            <br><br>
+            <input type="button" value="Agregar" onclick="insertUser()">
+        </form>
+    </body>
+</html>

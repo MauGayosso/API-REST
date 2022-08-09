@@ -7,18 +7,13 @@ function postCliente(){
         "email" : email.value
     }
 
-
-    console.log ("Nombre : " + name.value);
-    console.log ("Email : " + email.value);
-
     var request = new XMLHttpRequest();
 
-    var username = "user";
-    var password = "user";
+    token = sessionStorage.getItem("token")
 
-    request.open('POST',"https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us53.gitpod.io/clientes/",true)
+    request.open('POST',"https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us59.gitpod.io/clientes/",true)
     request.setRequestHeader("Accept", "application/json");
-    request.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password))
+    request.setRequestHeader("Authorization", "Bearer " + token)
     request.setRequestHeader("content-type", "application/json");
 
     request.onload = () =>{
@@ -30,7 +25,12 @@ function postCliente(){
         console.log("JSON     : " + json);
         console.log("Status   : " + status);
 
-
+        if (status == 200){
+            window.location.replace("getClientes.html");
+        }
+        else{
+            alert(json.detail);
+        }
 
     };
     request.send(JSON.stringify(payload));

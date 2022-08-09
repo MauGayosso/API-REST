@@ -1,8 +1,10 @@
 function putCliente(){
 
     var request = new XMLHttpRequest();
+    token = sessionStorage.getItem('token')
 
     let id_cliente = window.location.search.substring(1);
+
     let name = document.getElementById("name");
     let email = document.getElementById("email");
 
@@ -19,9 +21,9 @@ function putCliente(){
     var username = "user";
     var password = "user";
 
-    request.open('PUT','https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us53.gitpod.io/clientes/' + id_cliente.value, true);
+    request.open('PUT','https://8000-maugayosso-apirest-uapi6cjdvxz.ws-us59.gitpod.io/clientes/' + id_cliente.value, true);
     request.setRequestHeader("Accept", "application/json");
-    request.setRequestHeader("Authorization", "Basic " + btoa(username + ":" + password))
+    request.setRequestHeader("Authorization", "Bearer " + token);
     request.setRequestHeader("content-type", "application/json");
     request.onload = () =>{
         const response = request.responseText;
@@ -34,7 +36,10 @@ function putCliente(){
 
         if (status == 202){
             alert(json.message);
-            window.location.replace('index.html');
+            window.location.replace('getClientes.html');
+        }
+        else{
+            alert(json.detail);
         }
 
 
