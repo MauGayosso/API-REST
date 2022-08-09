@@ -5,8 +5,6 @@ from typing import List
 from pydantic import BaseModel
 from os import stat
 from urllib import response
-from pydantic import BaseModel
-from typing import List
 from fastapi import FastAPI, HTTPException, status, Depends, Security, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
