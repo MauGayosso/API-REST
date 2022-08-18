@@ -11,7 +11,6 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import RedirectResponse
 import pyrebase
 from fastapi.middleware.cors import CORSMiddleware
-
 import hashlib
 import os
 import sqlite3
